@@ -10,7 +10,6 @@ class CalculateSimilarity
   def calculation(text1, text2)
     split_words(text1, text2)
     calculate_tf
-    calculate_idf
     calculate_tfidf
     feature_vector
     calculate_similarity
@@ -18,6 +17,7 @@ class CalculateSimilarity
 end
 
 #ARGVで二つの文章を受け取り、計算を実行する。
+
 text1 = open(ARGV[0], &:read)
 text2 = open(ARGV[1], &:read)
 

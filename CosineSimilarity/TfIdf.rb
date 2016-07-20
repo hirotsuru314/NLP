@@ -1,7 +1,7 @@
 # _*_ coding: utf-8 _*_
 $:.unshift File.dirname(__FILE__)
 require 'natto'
-require "documents"
+require "idf_dic"
 
 module TfIdf
 
@@ -59,45 +59,19 @@ module TfIdf
     end
   end
 
-  #IDFを計算
-  #WikipediaのAbstractを抽出したAbstract.txtをdocuments.rbで配列$documentsに格納
-  #keyが形態素、valueがIDF値(Float)のハッシュを返す
-  def calculate_idf
-    @idf = Hash.new
-    $documents.each do |sentence|
-      word_hash = Hash.new
-      nm = Natto::MeCab.new
-      nm.parse(sentence) do |word|
-        surface = word.surface
-        feature = word.feature.split(',')
-        if feature.first == '名詞' && feature.last != '*'
-          word_hash[word.surface] = 1
-        end
-      end
-      word_hash.each_key do |key|
-        @idf[key]||=0
-        @idf[key]+=1
-      end
-    end
-    #IDFを計算
-    @idf.each do |key, value|
-      @idf[key] = Math.log10($documents.size/value.to_f) + 1
-    end
-  end
-
   def calculate_tfidf
     @tfidf1 = Hash.new
     @tfidf2 = Hash.new
     #text1
     @tf1.each do |key, value|
-      if @idf.has_key?(key)
-        @tfidf1[key] = @idf[key] * value
+      if $idf.has_key?(key)
+        @tfidf1[key] = $idf[key] * value
       end
     end
     #text2
     @tf2.each do |key, value|
-      if @idf.has_key?(key)
-        @tfidf2[key] = @idf[key] * value
+      if $idf.has_key?(key)
+        @tfidf2[key] = $idf[key] * value
       end
     end
   end
