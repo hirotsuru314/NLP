@@ -9,7 +9,6 @@ class FeatureVector
     split_words(text)
     calculate_tf
     calculate_tfidf
-    feature_vector
   end
 end
 

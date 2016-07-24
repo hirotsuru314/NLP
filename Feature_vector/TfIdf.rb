@@ -8,7 +8,7 @@ module TfIdf
   #Mecabによる形態素解析（単語分割）
   def split_words(text)
     @arr = Array.new
-    nm = Natto::MeCab.new
+    nm = Natto::MeCab.new('-d /usr/local/lib/mecab/dic/mecab-ipadic-neologd')
     nm.parse(text) do |n|
       surface = n.surface
       feature = n.feature.split(',')
@@ -39,7 +39,7 @@ module TfIdf
     @tfidf = Hash.new
     @tf.each do |key, value|
       if $idf.has_key?(key)
-        @tfidf[key] = $idf[key] * value
+        @tfidf[key] = ($idf[key] * value).round(3)
       end
     end
     puts @tfidf
