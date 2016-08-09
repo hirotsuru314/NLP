@@ -13,4 +13,4 @@ print 'はてなIDを入力してください。'
 $hatena_id = gets.chomp
 test.get_rss
 test.bookmark_titles
-test.make_feature_vector
+test.feature_words_extraction
